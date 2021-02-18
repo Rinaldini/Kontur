@@ -3,10 +3,11 @@
 Класс Converter {
   
   String "из";
+  
   String "в";
  
   конструктор (String "из", String "в") {
-
+  
     "из" = "из";
     "в" = "в";
   }
