@@ -1,56 +1,46 @@
 package ru.gnkoshelev.kontur.intern;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
-/**
- * Компиляция кода и его исполнение c использованием Java 11.
- * Сборка сервиса при помощи Apache Maven командой mvn package.
- * Сервис должен собираться в fat jar, т.е. все зависимости должны
- * быть упакованы внутрь одного jar.
- * Запуск сервиса осуществляется командой java -jar universal-converter-1.0.0.jar /path/to/file.csv, где /path/to/file.csv – путь до файла с правилами
- * конвертации.
- * Сервис должен принимать HTTP-запросы на стандартном порту (80).
- * Исходный код соответствует Java Code Conventions и Google Java Style Guide.
- * Сервис должен предоставлять один метод POST /convert с JSON в теле запроса:
- * 
- * {
- *  "from": "<выражение в исходных единицах измерения>",
- *  "to": "<выражение в единицах измерения, которые необходимо получить>"
- * }
- *
- */
-
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Converter {
-  String s, t;
-  //double Value;
-  public void setFrom(String sFrom) {
-    s = sFrom;
-  }
+ 
+  // Р·Р°РјРµРЅРёС‚СЊ РЅР° args[0]
+  private static final String filePath = "C:/Mydocs/Java/universal-converter/src/main/resources/JSON.json";
+  public static String to, from;
 
-  public void setTo(String sTo) {
-    t = sTo;
-  }
+  public static void main(String[] args) {
 
-  public void getFrom() {
-    return s;
-  }
+    // СЃС‡РёС‚С‹РІР°РЅРёРµ С„Р°Р№Р»Р° СЃ JSON РґР°РЅРЅС‹РјРё Рё РїРѕСЃР»РµРґСѓСЋС‰РёР№ СЂР°Р·Р±РѕСЂ 
+    try {
+      FileReader reader = new FileReader(filePath);
+      JSONParser jsonParser = new JSONParser();
+      JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
 
-  public void getTo() {
-    return t;
-  }
+      // СЃС‡РёС‚С‹РІР°РЅРёРµ С„Р°Р№Р»Р° СЃ JSON РґР°РЅРЅС‹РјРё
+      from = ((String) jsonObject.get("from")).replaceAll(" ","");
+      System.out.println("The FROM is: " + from);
+      to = ((String) jsonObject.get("to")).replaceAll(" ","");
+      System.out.println("The TO is: " + to);
 
-  public static void main( String[] args) {
-    System.out.println( "Hello World!" );
-  }
+    } catch (FileNotFoundException ex) {
+      ex.printStackTrace();
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    } catch (ParseException ex) {
+      ex.printStackTrace();
+    } catch (NullPointerException ex) {
+      ex.printStackTrace();
+    }
 
-  public static boolean checkUnits(String sFrom, String sTo) {
-    // method
-  }
+    System.out.println("The TO is: " + to + " and FROM is: " + from);
 
-  public static boolean checkExpression(String sFrom, String sTo) {
-    // method
-  }
+    
 
-  public static String sendMessage() {
-    // method
   }
 }
