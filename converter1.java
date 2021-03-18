@@ -20,12 +20,12 @@ import com.opencsv.CSVReader;
 
 public class Converter {
  
-  private static final String file = "D:\\Mydoc\\IT\\converter\\src\\main\\resources\\file.csv"; //  заменить на args[0]
+  public static final String file = "D:\\Mydoc\\IT\\converter\\src\\main\\resources\\file.csv"; //  заменить на args[0]
   public static String to, from, response;
   public static int codeResponse;
   public static FileReader reader;
   public static ByteArrayOutputStream result = new ByteArrayOutputStream();
-  public  static double valueCovert;
+  public static double valueConvert;
 
   public static void main(String[] args) throws Exception {
 
@@ -87,30 +87,68 @@ public class Converter {
         } catch (ParseException | NullPointerException e) {
           e.printStackTrace();
         }
-        System.out.println("The TO is: " + to + " and FROM is: " + from);  // удалить перед сдачей
-       
       }
 
       if (from.equals("")) {
         codeResponse = 400;
         response = String.valueOf(codeResponse);
-      } else if (Pattern.matches("[А-я]+", from)) {
-        System.out.println("1 We see from: " + from);
+      }
+
+      // если  "from" и "to" вида  "x"
+      else if (Pattern.matches("[А-я]+", from)) {
         if (Pattern.matches("[А-я]+", to)) {
-          System.out.println("2 We see to: " + to);
-          valueCovert = readData(file, to, from);
-          System.out.println(valueCovert);
-          if (valueCovert != 0.0) {
+          valueConvert = readData(file, from, to);
+          if (valueConvert != 0.0) {
             codeResponse = 200;
-            response = String.valueOf(valueCovert);
-            System.out.println(valueCovert);
+            response = String.valueOf(valueConvert);
           } else {
             codeResponse = 404;
           }
         } else {
           codeResponse = 404;
         }
-      } else {
+      }
+
+      // если  "from" и "to" вида  "1/x"
+      else if (Pattern.matches("1/[А-я]+", from)) {
+          from = from.substring(2);
+          if (Pattern.matches("1/[А-я]+", to)) {
+              to = to.substring(2);
+              valueConvert = readData(file, to, from);
+              if (valueConvert != 0.0) {
+                  codeResponse = 200;
+                  response = String.valueOf(valueConvert);
+              } else {
+                  codeResponse = 404;
+              }
+          } else {
+              codeResponse = 404;
+          }
+      }
+
+      // если  "from" и "to" вида  "x/y"
+      else if (Pattern.matches("[А-я]+/[А-я]+", from)) {
+          String[] arrayFrom = from.split("/");
+          System.out.println(); // удалить перед сдачей
+          if (Pattern.matches("[А-я]+/[А-я]+", to)) {
+              String[] arrayTo = to.split("/");
+              double[] arrayValueConvert = {0.0, 0.0};
+              for (int i = 0; i <2; i++) {
+                  arrayValueConvert[i] = readData(file, arrayFrom[i], arrayTo[i]);
+              }
+              valueConvert = arrayValueConvert[0]/arrayValueConvert[1];
+              if (valueConvert != 0.0) {
+                  codeResponse = 200;
+                  response = String.valueOf(valueConvert);
+              } else {
+                  codeResponse = 404;
+              }
+          } else {
+              codeResponse = 404;
+          }
+      }
+
+      else {
         codeResponse = 200;
       }
 
