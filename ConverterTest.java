@@ -9,12 +9,12 @@ public class ConverterTest {
   @Test
   public void testReadData() {
     String csvFile = "C:\\Mydocs\\Java\\universal-converter\\src\\main\\resources\\file.csv";
-    String[] s = {"мм", "с", "кг"};
-    String[] t = {"км", "час", "км"};
+    String[] s = {"Г¬Г¬", "Г±", "ГЄГЈ"};
+    String[] t = {"ГЄГ¬", "Г·Г Г±", "ГЄГ¬"};
     double[] expected = {0.000001, 0.00027777777777777777777777777777778, 0.0};
     for (int i = 0; i < 3; i++) {
       double actual = Converter.readData(csvFile, s[i], t[i]);
-      assertEquals("Что-то пошло не так: " + s[i] + " " + t[i], expected[i], actual);
+      assertEquals(expected[i], actual);
     }
   }
 
