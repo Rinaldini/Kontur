@@ -19,6 +19,8 @@ getBodyResponse(); // тело ответа
      - если from&to = "x";
      - если from&to = "1/x";
      - если from&to = "x/y";
+     - если from&to = "x/yz";
+     - если from&to = "xy/z";
      - если from&to = "xyz/ab";
 
   }
