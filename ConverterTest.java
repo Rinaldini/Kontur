@@ -9,8 +9,8 @@ public class ConverterTest {
   @Test
   public void testReadData() {
     String csvFile = "C:\\Mydocs\\Java\\universal-converter\\src\\main\\resources\\file.csv";
-    String[] s = {"ìì", "ñ", "êã"};
-    String[] t = {"êì", "÷àñ", "êì"};
+    String[] s = {"мм", "с", "кг"};
+    String[] t = {"км", "час", "км"};
     double[] expected = {0.000001, 0.00027777777777777777777777777777778, 0.0};
     for (int i = 0; i < 3; i++) {
       double actual = Converter.readData(csvFile, s[i], t[i]);
